@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-# CORS Configuration
+#CORS Configuration
 CORS(app, resources={
     r"/api/*": {
         "origins": ["*"],  # Allow all in development
@@ -14,24 +14,24 @@ CORS(app, resources={
     }
 })
 
-# In-memory database
+#In-memory database
 memos = [
     {"id": 1, "title": "First Memo", "content": "This is my first memo"},
     {"id": 2, "title": "Second Memo", "content": "Another important note"}
 ]
 
-# GET all memos
+#GET all memos
 @app.route('/api/memos', methods=['GET'])
 def get_memos():
     return jsonify(memos)
 
-# GET single memo
+#GET single memo
 @app.route('/api/memos/<int:memo_id>', methods=['GET'])
 def get_memo(memo_id):
     memo = next((m for m in memos if m['id'] == memo_id), None)
     return jsonify(memo) if memo else ('Not found', 404)
 
-# CREATE memo
+#CREATE memo
 @app.route('/api/memos', methods=['POST'])
 def create_memo():
     new_memo = request.get_json()
@@ -39,7 +39,7 @@ def create_memo():
     memos.append(new_memo)
     return jsonify(new_memo), 201
 
-# UPDATE memo
+#UPDATE memo
 @app.route('/api/memos/<int:memo_id>', methods=['PUT'])
 def update_memo(memo_id):
     memo = next((m for m in memos if m['id'] == memo_id), None)
@@ -49,7 +49,7 @@ def update_memo(memo_id):
     memo.update(data)
     return jsonify(memo)
 
-# DELETE memo
+#DELETE memo
 @app.route('/api/memos/<int:memo_id>', methods=['DELETE'])
 def delete_memo(memo_id):
     global memos
