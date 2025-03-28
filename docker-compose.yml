@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - memo-net
+    environment:
+      - FLASK_DEBUG=1
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - memo-net
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:5000/api # For browser-side usage
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Critical for Window
+
+networks:
+  memo-net:
+    driver: bridge
