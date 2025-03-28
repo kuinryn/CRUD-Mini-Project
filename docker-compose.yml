@@ -28,4 +28,3 @@ services:
 networks:
   memo-net:
     driver: bridge
-    
